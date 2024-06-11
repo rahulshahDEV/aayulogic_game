@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tictactoe/controller/mycontroller.dart';
 
 import 'package:tictactoe/modal/mymodel.dart';
 
 MyModel obj = MyModel();
-MyModel obj2 = MyModel();
+MyController controller = MyController();
 
 class MyGame extends StatefulWidget {
   const MyGame({
@@ -24,6 +25,13 @@ class MyGame extends StatefulWidget {
 
 class _MyGameState extends State<MyGame> {
   @override
+  void dispose() {
+    controller.restartFully();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -35,10 +43,12 @@ class _MyGameState extends State<MyGame> {
         onTap: () {
           HapticFeedback.vibrate();
           if ((obj.myOccoupied[widget.index]).toString().isEmpty &&
-              obj.isModifiable()) {
-            obj.setOccoupied(widget.index);
-            obj.playerSwitch();
-            obj.validation(context);
+              controller.isModifiable()) {
+            obj.checkAutoBot
+                ? controller.autoBot(widget.index)
+                : controller.setOccoupied(widget.index);
+            controller.playerSwitch();
+            controller.validation(context);
           }
 
           print(obj.myOccoupied[widget.index]);

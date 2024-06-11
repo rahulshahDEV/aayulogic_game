@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tictactoe/pages/homescreen.dart';
-import 'package:tictactoe/pages/wrapper.dart';
+import 'package:tictactoe/views/pages/wrapper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
       title: "TicTacToe",
-      home: HomeScreen(),
+      home: const MyWrapper(),
     );
   }
 }

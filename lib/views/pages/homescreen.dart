@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tictactoe/component/appbar.dart';
-import 'package:tictactoe/component/button.dart';
-import 'package:tictactoe/component/button2.dart';
-import 'package:tictactoe/pages/gamepage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tictactoe/views/component/appbar.dart';
+import 'package:tictactoe/views/component/button.dart';
+import 'package:tictactoe/views/pages/gamepage.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -37,6 +37,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Padding(
+                padding: const EdgeInsets.only(bottom: 25),
+                child: Center(
+                  child: ValueListenableBuilder(
+                    valueListenable: obj.turn,
+                    builder: (context, value, child) => AnimatedRotation(
+                      turns: obj.turn.value,
+                      duration: const Duration(seconds: 1),
+                      child: IconButton(
+                        icon: const Icon(
+                          FontAwesomeIcons.arrowsRotate,
+                          size: 30,
+                          color: Colors.deepPurple,
+                        ),
+                        onPressed: () {
+                          controller.rotateButton();
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.only(bottom: 60),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -58,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(
-                      child: const Text(
+                      child: Text(
                         'Score : ',
                         style: TextStyle(fontSize: 20),
                       ),
@@ -82,10 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     MyButton(
+                      playerName: obj.playerO.toString(),
                       player: 'O',
                       colour: obj.myColour,
                     ),
-                    MyButton2(
+                    MyButton(
+                      playerName: obj.playerX.toString(),
                       player: 'X',
                       colour: obj.myColour1,
                     )

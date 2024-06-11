@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tictactoe/pages/gamepage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tictactoe/views/pages/gamepage.dart';
 
 class MyAppbar extends StatelessWidget implements PreferredSize {
   const MyAppbar({super.key});
@@ -7,17 +8,18 @@ class MyAppbar extends StatelessWidget implements PreferredSize {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+          icon: const Icon(FontAwesomeIcons.circleArrowLeft)),
       actions: [
         IconButton(
             onPressed: () {
-              obj.restartColour();
-              obj.restartgame();
-              obj.score2.value = 0;
-              obj.score1.value = 0;
-              obj.colourSetter.value = true;
-              obj2.colourSetter2.value = false;
+              controller.restartFully();
+              obj.player = 'O';
             },
-            icon: const Icon(Icons.delete))
+            icon: const Icon(FontAwesomeIcons.powerOff))
       ],
       centerTitle: true,
       backgroundColor: Colors.deepPurple,
