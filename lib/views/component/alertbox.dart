@@ -58,6 +58,8 @@ class MyAlert extends StatelessWidget {
                       controller.switchBtoA();
                     }
                     controller.alertBox(context);
+                    controller.restartgame();
+                    // obj.occupied.value = ["", "", "", "", "", "", "", ""];
                   },
                   child: const Text(' play again '))
             ],

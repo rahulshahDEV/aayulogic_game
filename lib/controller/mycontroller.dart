@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:tictactoe/Extension/extension.dart';
 import 'package:tictactoe/views/component/alertbox.dart';
 import 'package:tictactoe/views/pages/gamepage.dart';
 
@@ -13,6 +14,7 @@ class MyController {
     obj.playerO = 'Player O';
     obj.playerX = 'Player X';
     obj.turn.value = 0.0;
+    obj.player = 'O';
   }
 
   void rotateButton() {
@@ -42,17 +44,50 @@ class MyController {
     playerSwitch();
   }
 
-  void autoBot(int ind) {
-    setOccoupied(ind);
-    Future.delayed(const Duration(seconds: 1), () {
-      int index = genIndex();
-      if (checkBoxisFilled(index)) {
-        autoDataHandler(index);
-      } else {
-        index = genIndex();
-        autoDataHandler(index);
+  void callHuman(int index) {
+    setOccoupied(index);
+    autoBot();
+    obj.userIndex = index;
+  }
+
+  int bestIndexChoice() {
+    List<int> indexes = [4, 8, 2, 4, 0, 2, 6, 8];
+
+    for (var index in indexes) {
+      if (obj.occupied.value[index].toString().isEmpty) {
+        return index;
       }
-    });
+    }
+    return genIndex();
+  }
+
+  void autoBot() {
+    if (obj.level.value) {
+      Future.delayed(const Duration(milliseconds: 190), () {
+        int index = genIndex();
+        final boxIsFilled = checkBoxisFilled(index);
+        // print(obj.occupied.value[index]);
+        if (boxIsFilled) {
+          autoDataHandler(index);
+          validation(mycontext);
+        } else if (!filledBox() && isModifiable()) {
+          autoBot();
+        }
+      });
+    } else {
+      print(bestIndexChoice());
+      Future.delayed(const Duration(milliseconds: 190), () {
+        int index = bestIndexChoice();
+        final boxIsFilled = checkBoxisFilled(index);
+        // print(obj.occupied.value[index]);
+        if (boxIsFilled) {
+          autoDataHandler(index);
+          validation(mycontext);
+        } else if (!filledBox() && isModifiable()) {
+          autoBot();
+        }
+      });
+    }
   }
 
   void restartScore() {
@@ -69,6 +104,7 @@ class MyController {
   }
 
   void restartgame() {
+    obj.player = 'O';
     restartColour();
     obj.occupied.value = ["", "", "", "", "", "", "", "", ""];
     obj.occupied.value = List.from(obj.occupied.value);
@@ -84,14 +120,13 @@ class MyController {
       try {
         pushDataToBox(index);
       } catch (e) {
-        print(e.toString());
+        mycontext!.showSnackBar(e.toString());
       }
     } else {
       try {
-        print(obj.currentPlayer + 'jdhfk');
         pushDataToBox(index);
       } catch (e) {
-        print(e.toString());
+        mycontext!.showSnackBar(e.toString());
       }
     }
   }
@@ -144,15 +179,12 @@ class MyController {
   }
 
   bool filledBox() {
-    var res = obj.myOccoupied
+    int res = obj.myOccoupied
         .where(
           (element) => element == 'X' || element == 'O',
         )
         .length;
-    if (res == 9) {
-      return true;
-    }
-    return false;
+    return res == 9;
   }
 
   void alertBox(var context) {
@@ -171,14 +203,11 @@ class MyController {
       obj.setColour();
 
       controller.setScore(obj.myOccoupied[0]);
-      // print(occupied.value[0]);
 
       showDialog(
           context: context,
           builder: (context) => MyAlert(winner: obj.occupied.value[0]));
       obj.matchedBoxes.addAll([0, 1, 2]);
-      // print(matchedBoxes);
-      // return true;
     } else if (obj.myOccoupied[3] == obj.myOccoupied[4] &&
         obj.myOccoupied[4] == obj.myOccoupied[5] &&
         obj.myOccoupied[3] != '') {
@@ -187,7 +216,6 @@ class MyController {
           builder: (context) => MyAlert(winner: obj.occupied.value[3]));
       controller.setScore(obj.myOccoupied[3]);
       obj.matchedBoxes.addAll([3, 4, 5]);
-      // print(obj.myOccoupied);
     } else if (obj.myOccoupied[6] == obj.myOccoupied[7] &&
         obj.myOccoupied[6] == obj.myOccoupied[8] &&
         obj.myOccoupied[6] != '') {

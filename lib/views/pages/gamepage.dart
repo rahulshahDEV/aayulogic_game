@@ -8,6 +8,7 @@ import 'package:tictactoe/modal/mymodel.dart';
 
 MyModel obj = MyModel();
 MyController controller = MyController();
+BuildContext? mycontext;
 
 class MyGame extends StatefulWidget {
   const MyGame({
@@ -42,13 +43,17 @@ class _MyGameState extends State<MyGame> {
         radius: 900,
         onTap: () {
           HapticFeedback.vibrate();
+
           if ((obj.myOccoupied[widget.index]).toString().isEmpty &&
               controller.isModifiable()) {
+            print(obj.myOccoupied[widget.index].toString().isEmpty);
+            print(controller.isModifiable());
             obj.checkAutoBot
-                ? controller.autoBot(widget.index)
+                ? controller.callHuman(widget.index)
                 : controller.setOccoupied(widget.index);
-            controller.playerSwitch();
             controller.validation(context);
+            mycontext = context;
+            controller.playerSwitch();
           }
 
           print(obj.myOccoupied[widget.index]);

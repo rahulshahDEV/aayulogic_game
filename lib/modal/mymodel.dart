@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class MyModel {
+  int userIndex = 0;
   bool checkAutoBot = false;
   String playerO = 'player O';
   String playerX = 'Player X';
@@ -11,6 +12,8 @@ class MyModel {
   List<int> matchedBoxes = [];
   ValueNotifier<double> turn = ValueNotifier<double>(0.0);
   bool gameEnd = false;
+
+  ValueNotifier<bool> level = ValueNotifier<bool>(true);
 
   // bool endGame = false;
   ValueNotifier<bool> endGame = ValueNotifier<bool>(true);

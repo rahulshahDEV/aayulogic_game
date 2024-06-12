@@ -16,7 +16,7 @@ class MyButton extends StatelessWidget {
   void myButtonLogic(BuildContext context) {
     if (player == 'X') {
       final res = obj.setPlayer('X');
-
+      controller.buttonSwitch();
       if (res) {
         context.showSnackBar('player ${obj.playerX} activated', myduration: 5);
       }

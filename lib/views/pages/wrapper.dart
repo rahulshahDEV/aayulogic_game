@@ -4,6 +4,7 @@ import 'package:tictactoe/Extension/extension.dart';
 import 'package:tictactoe/views/pages/gamepage.dart';
 
 import 'package:tictactoe/views/pages/homescreen.dart';
+import 'package:tictactoe/views/pages/level.dart';
 import 'package:tictactoe/views/pages/multiplayer.dart';
 
 class MyWrapper extends StatelessWidget {
@@ -38,7 +39,7 @@ class MyWrapper extends StatelessWidget {
             height: 100,
           ),
           myContainer(FontAwesomeIcons.userLarge, FontAwesomeIcons.robot,
-              context, const HomeScreen(),
+              context, const Level(),
               checkAutoBot: true),
           myContainer(FontAwesomeIcons.userLarge, FontAwesomeIcons.userLarge,
               context, Wrapper())
